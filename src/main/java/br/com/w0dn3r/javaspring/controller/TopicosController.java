@@ -1,21 +1,32 @@
 package br.com.w0dn3r.javaspring.controller;
 
+import br.com.w0dn3r.javaspring.controller.form.TopicoForm;
 import br.com.w0dn3r.javaspring.dto.TopicoDTO;
-import br.com.w0dn3r.javaspring.modelo.Curso;
 import br.com.w0dn3r.javaspring.modelo.Topico;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import br.com.w0dn3r.javaspring.repositories.TopicoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
+@RequestMapping("/topicos")
 public class TopicosController {
 
-    @RequestMapping("/topicos")
-    public List<TopicoDTO> lista(){
-        Topico topic = new Topico("Teste", "Teste", new Curso("Curso 1", "Programming"));
+    @Autowired
+    private TopicoRepository topicoRepository;
 
-        return TopicoDTO.converter(Arrays.asList(topic, topic, topic));
+    @GetMapping
+    public List<TopicoDTO> lista(String nomeCurso){
+        if(nomeCurso == null){
+            List<Topico> topicos = topicoRepository.findAll();
+            return TopicoDTO.converter(topicos);
+        }
+        List<Topico> topicos = topicoRepository.pesquisandoCurso(nomeCurso);
+        return TopicoDTO.converter(topicos);
+    }
+    @PostMapping
+    public void cadastrar(TopicoForm topicoForm){
+
     }
 }
