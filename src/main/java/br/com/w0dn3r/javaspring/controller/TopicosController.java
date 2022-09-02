@@ -3,10 +3,14 @@ package br.com.w0dn3r.javaspring.controller;
 import br.com.w0dn3r.javaspring.controller.form.TopicoForm;
 import br.com.w0dn3r.javaspring.dto.TopicoDTO;
 import br.com.w0dn3r.javaspring.modelo.Topico;
+import br.com.w0dn3r.javaspring.repositories.CursoRepository;
 import br.com.w0dn3r.javaspring.repositories.TopicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -15,6 +19,8 @@ public class TopicosController {
 
     @Autowired
     private TopicoRepository topicoRepository;
+    @Autowired
+    private CursoRepository cursoRepository;
 
     @GetMapping
     public List<TopicoDTO> lista(String nomeCurso){
@@ -26,7 +32,11 @@ public class TopicosController {
         return TopicoDTO.converter(topicos);
     }
     @PostMapping
-    public void cadastrar(TopicoForm topicoForm){
+    public ResponseEntity<TopicoDTO> cadastrar(@RequestBody TopicoForm topicoForm, UriComponentsBuilder uriComponentsBuilder){
+        Topico topico = topicoForm.converter(cursoRepository);
+        topicoRepository.save(topico);
 
+        URI uri = uriComponentsBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
+        return ResponseEntity.created(uri).body(new TopicoDTO(topico));
     }
 }
