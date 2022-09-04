@@ -1,7 +1,9 @@
 package br.com.w0dn3r.javaspring.modelo;
 
 
-public enum StatusTopico {
+import java.io.Serializable;
+
+public enum StatusTopico  implements Serializable {
 	
 	NAO_RESPONDIDO,
 	NAO_SOLUCIONADO,

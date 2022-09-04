@@ -2,11 +2,12 @@ package br.com.w0dn3r.javaspring.modelo;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 @Entity
-public class Topico {
+public class Topico  implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;

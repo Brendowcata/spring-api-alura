@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface TopicoRepository extends JpaRepository<Topico, Long> {
 
-    @Query("SELECT t FROM Topico as t\n" +
-            "INNER JOIN Curso as c\n" +
-            "ON c.id = t.curso\n" +
-            "WHERE c.nome LIKE %:nomeCurso%")
+    @Query(" SELECT t FROM Topico as t " +
+            " INNER JOIN Curso as c " +
+            " ON c.id = t.curso " +
+            " WHERE c.nome LIKE %:nomeCurso%")
     List<Topico> pesquisandoCurso(@Param("nomeCurso") String nomeCurso);
 }
