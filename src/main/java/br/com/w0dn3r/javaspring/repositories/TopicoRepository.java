@@ -1,6 +1,8 @@
 package br.com.w0dn3r.javaspring.repositories;
 
 import br.com.w0dn3r.javaspring.modelo.Topico;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,5 +15,5 @@ public interface TopicoRepository extends JpaRepository<Topico, Long> {
             " INNER JOIN Curso as c " +
             " ON c.id = t.curso " +
             " WHERE c.nome LIKE %:nomeCurso%")
-    List<Topico> pesquisandoCurso(@Param("nomeCurso") String nomeCurso);
+    Page<Topico> pesquisandoCurso(@Param("nomeCurso") String nomeCurso, Pageable paginacao);
 }
